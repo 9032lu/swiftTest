@@ -1,0 +1,22 @@
+target 'swiftTest' do
+    
+    
+    #-- OC库
+    pod 'MBProgressHUD'
+    pod 'SVProgressHUD'
+    pod 'TYAlertController'
+    pod 'SDCycleScrollView'
+    pod 'MJRefresh'
+    pod 'SDWebImage'
+    pod 'YYModel'
+
+    
+    #-- swift4.0
+    pod 'Moya'
+    pod 'SnapKit'
+    pod 'Kingfisher'
+    pod 'Alamofire'
+    pod 'SwiftyJSON'
+    pod 'HandyJSON'
+
+end
