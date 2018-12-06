@@ -131,8 +131,10 @@ private let netWorkPlugin = NetworkActivityPlugin.init { (changeType, targetType
     switch (changeType) {
     case .began:
         print("开始请求网络")
+        SVProgressHUD.show();
 
     case .ended:
+        SVProgressHUD.dismiss()
         print("结束")
     }
   
@@ -151,24 +153,53 @@ let Provider = MoyaProvider.init(endpointClosure: myEndpointClosure, requestClos
 ///   - completion: 请求成功的回调
 func LZDNetWorkRequest( target: LZDAPI, completion: @escaping successCallback ) {
     
-    LZDNetWorkRequest(target, completion: completion, failed: nil, errorResult: nil)
+    LZDNetWorkRequest(target, cache: false, cacheHandle: nil, completion: completion, failed: nil, errorResult: nil)
 }
 
-// 需要知道成功或者失败的网络请求， 要知道code码为其他情况时候用这个
+/// 需要知道成功或者失败的网络请求， 要知道code码为其他情况时候用这个
 ///
 /// - Parameters:
 ///   - target: 网络请求
 ///   - completion: 成功的回调
 ///   - failed: 请求失败的回调
 func LZDNetWorkRequest(_ target: LZDAPI, completion: @escaping successCallback , failed:failedCallback?) {
-    LZDNetWorkRequest(target, completion: completion, failed: failed, errorResult: nil)
+    LZDNetWorkRequest(target, cache: false, cacheHandle: nil, completion: completion, failed: failed, errorResult: nil)
+
 }
 
-func LZDNetWorkRequest(_ target: LZDAPI, completion: @escaping successCallback , failed:failedCallback?, errorResult:errorCallback?){
+/// 使用moya的请求封装
+///
+/// - Parameters:
+///   - API: 要使用的moya请求枚举（TargetType）
+///   - target: TargetType里的枚举值
+///   -cache: 是否缓存
+///   -cacheHandle: 需要单独处理缓存的数据时使用，（默认为空，使用success处理缓存数据）
+///   - success: 成功的回调
+///   - error: 连接服务器成功但是数据获取失败
+///   - failure: 连接服务器失败
+
+func LZDNetWorkRequest(_ target: LZDAPI,cache: Bool = false, cacheHandle :((String)->Void)? = nil, completion: @escaping successCallback , failed:failedCallback?, errorResult:errorCallback?){
+    
+
+    if  cache,let data = LZDSaveFiles.read(path: target.path) {
+        //cacheHandle不为nil则使用cacheHandle处理缓存，否则使用success处理
+
+        if let block = cacheHandle{
+            
+            
+            block(String(data: data, encoding: String.Encoding.utf8)!)
+        }else{
+            
+            completion(String(data: data, encoding: String.Encoding.utf8)!)
+        }
+        
+    }else{
+        
+    }
+    
     
     //先判断网络是否有链接 没有的话直接返回--代码略
-
-    if !isNetworkConnect {
+        if !isNetworkConnect {
         print("提示用户网络似乎出现了问题")
 
         return
@@ -188,15 +219,16 @@ func LZDNetWorkRequest(_ target: LZDAPI, completion: @escaping successCallback ,
                 
                 completion(String(data: response.data, encoding: String.Encoding.utf8)!)
                 
-                print("flag不为1000 HUD显示后台返回message"+"\(jsonData[RESULT_MESSAGE].stringValue)")
+//                print("flag不为1000 HUD显示后台返回message"+"\(jsonData[RESULT_MESSAGE].stringValue)")
                 
-                //                if jsonData[RESULT_CODE].stringValue == "1000"{
-                //                    completion(String(data: response.data, encoding: String.Encoding.utf8)!)
-                //                }else{
-                //                if failed != nil{
-                //                    failed(String(data: response.data, encoding: String.Encoding.utf8)!)
-                //                }
-                //                }
+//                    if jsonData[RESULT_CODE].stringValue == "1"{
+//                        completion(String(data: response.data, encoding: String.Encoding.utf8)!)
+//                    }else{
+//
+//                    if failed != nil{
+//                        failed?(String(data: response.data, encoding: String.Encoding.utf8)!)
+//                        }
+//                    }
                 
             } catch {
                 

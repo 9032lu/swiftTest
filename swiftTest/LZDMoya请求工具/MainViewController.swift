@@ -8,9 +8,11 @@
 
 import UIKit
 import Moya
-
+import Kingfisher
 class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDelegate{
     var topView : UIView!
+    var dataModle :LZDItemModel!
+    
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -20,7 +22,6 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         self.navigationItem.title = "首页";
         print("asda","我的")
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 55/255, green: 186/255, blue: 89/255, alpha: 1)
-//        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white,NSAttributedString.Key.font:UIFont.systemFont(ofSize: 30)];
         topView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         topView.backgroundColor = UIColor.red
         topView.isUserInteractionEnabled = true
@@ -52,15 +53,28 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if  self.dataModle != nil {
+           return self.dataModle.top_stories.count
+        }else{
+            return 0
+        }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell = tableView.dequeueReusableCell(withIdentifier: "cellID");
         if (cell == nil) {
-            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: "cellID")
-            
+            cell = UITableViewCell.init(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: "cellID")
+            cell?.selectionStyle = .none
         }
+        let cellModel = self.dataModle.top_stories[indexPath.row]
+        
+        cell?.textLabel?.text = cellModel.title
+        cell?.detailTextLabel?.text = cellModel.ga_prefix
+        cell?.imageView?.kf.setImage(with: ImageResource.init(downloadURL: URL(string: cellModel.image!)!), placeholder: UIImage(named: "image"), options: nil, progressBlock: nil, completionHandler: nil)
+        
         
         cell?.textLabel?.text = NSString.localizedStringWithFormat("%d", indexPath.row) as String;
         return cell!;
@@ -75,19 +89,23 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     
         LZDNetWorkRequest(target: .easyRequese) { (responseString) -> (Void) in
             
-            if let dailyItem = [LZDItem].deserialize(from: responseString, designatedPath: "stories"){
-                dailyItem.forEach({ (item) in
-                    print("模型属性--\(item?.title ?? "模型无title")" )
-
-                })
-                
-                
-            }
+            self.dataModle = LZDItemModel.deserialize(from: responseString)
+            
+            self.tableView.reloadData()
+            
+//            if let dailyItem = [LZDItem].deserialize(from: responseString, designatedPath: "stories"){
+//                dailyItem.forEach({ (item) in
+//                    print("模型属性--\(item?.title ?? "模型无title")" )
+//
+//                })
+//
+//
+//            }
         }
     }
   
     @IBAction func testApiClick(_ sender: UIButton) {
-        testApi()
+        userLogin()
         
     }
     @IBAction func uploadImgClick(_ sender: Any) {
@@ -99,19 +117,34 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         
     }
     
-    func testApi() {
+  
+    func userLogin() {
         
         var paraDict:[String:Any] = Dictionary()
-        paraDict["app_type_"] = "1"
-        paraDict["app_version_no_"] = "1.0.1"
-        paraDict["platform_type_"] = "2"
-        paraDict["ver_code_value_"] = nil
+        
+        paraDict["deviceType"] = "iOS"
+        paraDict["phone"] = "17629002328"
+        paraDict["deviceId"] = "59B73AE6-598D-4888-B5B2-6F8BCAD9A546"
+        paraDict["pass"] = "111111"
+        paraDict["deviceVersion"] = "12.1"
+        paraDict["deviceName"] = "iPhone SE"
 
         
-        LZDNetWorkRequest(target: .updataApi(paramer: paraDict)) { (responseString) -> (Void) in
-            //后台flag为1000是后台的result code
-            print(responseString)
+        LZDNetWorkRequest(.User_loginByPhone(paramer: paraDict), completion: { (result) -> (Void) in
+            
+            let userLoginModel = LZDUserLoginModel.deserialize(from: result, designatedPath: "data")
+
+            
+            print(result)
+
+        }) { (failer) -> (Void) in
+            
+            print(failer)
+
         }
+       
+        
+        
     }
     
     
@@ -142,7 +175,7 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
         paraDict["platform_type_"] = "2"
         paraDict["ver_code_value_"] = nil
         
-        LZDNetWorkRequest(.updataApi(paramer: paraDict), completion: { (resultString) -> (Void) in
+        LZDNetWorkRequest(.User_loginByPhone(paramer: paraDict), completion: { (resultString) -> (Void) in
             print("网络成功的数据")
 
         }, failed: { (str) -> (Void) in

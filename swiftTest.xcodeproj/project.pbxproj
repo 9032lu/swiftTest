@@ -28,6 +28,7 @@
 		3C073A1321B7B2460054D2F4 /* LZDMoyaConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C073A1221B7B2460054D2F4 /* LZDMoyaConfig.swift */; };
 		3C073A1521B7CDD00054D2F4 /* LZDItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C073A1421B7CDD00054D2F4 /* LZDItem.swift */; };
 		3C073A1721B7DA050054D2F4 /* image.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C073A1621B7DA050054D2F4 /* image.png */; };
+		3C073A1B21B8AC5A0054D2F4 /* LZDSaveFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C073A1A21B8AC5A0054D2F4 /* LZDSaveFiles.swift */; };
 		9C724A356F74F6D4B9E407CA /* libPods-swiftTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1CD24B22B58764241ED3283F /* libPods-swiftTest.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +81,7 @@
 		3C073A1221B7B2460054D2F4 /* LZDMoyaConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LZDMoyaConfig.swift; sourceTree = "<group>"; };
 		3C073A1421B7CDD00054D2F4 /* LZDItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LZDItem.swift; sourceTree = "<group>"; };
 		3C073A1621B7DA050054D2F4 /* image.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = image.png; sourceTree = "<group>"; };
+		3C073A1A21B8AC5A0054D2F4 /* LZDSaveFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LZDSaveFiles.swift; sourceTree = "<group>"; };
 		7B710AB98BB3C2350C62E6F7 /* Pods-swiftTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-swiftTest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-swiftTest/Pods-swiftTest.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +207,7 @@
 				3C073A0E21B7B1D40054D2F4 /* LZDAPI.swift */,
 				3C073A1021B7B2210054D2F4 /* LZDNetworkManager.swift */,
 				3C073A1221B7B2460054D2F4 /* LZDMoyaConfig.swift */,
+				3C073A1A21B8AC5A0054D2F4 /* LZDSaveFiles.swift */,
 				3C073A1421B7CDD00054D2F4 /* LZDItem.swift */,
 			);
 			path = "LZDMoya请求工具";
@@ -405,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C04001B21B5233C000CC50F /* LZDUtil.swift in Sources */,
+				3C073A1B21B8AC5A0054D2F4 /* LZDSaveFiles.swift in Sources */,
 				3C04001721B516B4000CC50F /* LZDNetworkReachability.swift in Sources */,
 				3C04000821B0C3E0000CC50F /* MainViewController.swift in Sources */,
 				3C073A0F21B7B1D40054D2F4 /* LZDAPI.swift in Sources */,

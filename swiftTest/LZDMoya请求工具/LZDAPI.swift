@@ -10,7 +10,9 @@ import Foundation
 import Moya
 
 enum LZDAPI {
-    case updataApi(paramer:[String:Any])
+    
+// MARK: - 用户登录
+    case User_loginByPhone(paramer:[String:Any])
     case register(email:String,password:String)
     //用户上传头像
     case uploadHeaderImage(paramer:[String:Any],imageData:Data)
@@ -37,8 +39,8 @@ extension LZDAPI:TargetType{
             return "register"
         case .easyRequese:
             return  "4/news/latest"
-        case .updataApi:
-            return "versionService.getAppUpdateApi"
+        case .User_loginByPhone:
+            return "hongYan/user/loginByPhone.html"
         case .uploadHeaderImage(_):
             return "/file/user/upload.jhtml"
             
@@ -71,7 +73,8 @@ extension LZDAPI:TargetType{
         case let .register(email, password):
             params = ["email": email, "password": password];
             
-        case let .updataApi(paramer):
+            
+        case let .User_loginByPhone(paramer):
             params = paramer
             
         case .uploadHeaderImage(let paramer, let imageData):
