@@ -13,10 +13,8 @@ enum LZDAPI {
     
 // MARK: - 用户登录
     case User_loginByPhone(paramer:[String:Any])
-    case register(email:String,password:String)
     //用户上传头像
     case uploadHeaderImage(paramer:[String:Any],imageData:Data)
-    case easyRequese
     
     
     
@@ -24,21 +22,13 @@ enum LZDAPI {
 
 extension LZDAPI:TargetType{
     var baseURL: URL {
-        switch self {
-        case .easyRequese:
-            return URL.init(string: "http://news-at.zhihu.com/api/")!
-        default:
-            return URL.init(string: (Moya_baseURL))!
-        }
-//       return URL(string: "http://t1.beijingzhangtu.com/")!
+      
+       return URL.init(string: (Moya_baseURL))!
     }
     
     var path: String {
         switch self {
-        case .register:
-            return "register"
-        case .easyRequese:
-            return  "4/news/latest"
+ 
         case .User_loginByPhone:
             return "hongYan/user/loginByPhone.html"
         case .uploadHeaderImage(_):
@@ -49,13 +39,13 @@ extension LZDAPI:TargetType{
     }
     
     var method: Moya.Method {
-        switch self {
-        case .easyRequese:
-            return .get
-        default:
+//        switch self {
+//        case .easyRequese:
+//            return .get
+//        default:
             return .post
 
-        }
+//        }
     }
     
     var sampleData: Data {
@@ -67,12 +57,6 @@ extension LZDAPI:TargetType{
 
         switch self {
     
-        case .easyRequese:
-            return .requestPlain
-            
-        case let .register(email, password):
-            params = ["email": email, "password": password];
-            
             
         case let .User_loginByPhone(paramer):
             params = paramer

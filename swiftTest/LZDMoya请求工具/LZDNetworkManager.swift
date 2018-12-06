@@ -58,16 +58,16 @@ private let myEndpointClosure = {(target:LZDAPI) ->Endpoint in
     
     requestTimeOut = 30//每次请求都会调用endpointClosure 到这里设置超时时长 也可单独每个接口设置
     
-    switch target {
-    case .easyRequese:
-        return endpoint
-      case .register:
-        requestTimeOut = 5
-        return endpoint
-    default:
+//    switch target {
+//    case .easyRequese:
+//        return endpoint
+//      case .register:
+//        requestTimeOut = 5
+//        return endpoint
+//    default:
         return endpoint
 
-    }
+//    }
   
     
 }

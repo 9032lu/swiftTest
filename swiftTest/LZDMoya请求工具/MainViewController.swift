@@ -87,12 +87,12 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
     
     func testZhiHuDailyAPI()  {
     
-        LZDNetWorkRequest(target: .easyRequese) { (responseString) -> (Void) in
-            
-            self.dataModle = LZDItemModel.deserialize(from: responseString)
-            
-            self.tableView.reloadData()
-            
+//        LZDNetWorkRequest(target: .easyRequese) { (responseString) -> (Void) in
+//
+//            self.dataModle = LZDItemModel.deserialize(from: responseString)
+//
+//            self.tableView.reloadData()
+//
 //            if let dailyItem = [LZDItem].deserialize(from: responseString, designatedPath: "stories"){
 //                dailyItem.forEach({ (item) in
 //                    print("模型属性--\(item?.title ?? "模型无title")" )
@@ -101,7 +101,7 @@ class MainViewController: UIViewController ,UITableViewDataSource,UITableViewDel
 //
 //
 //            }
-        }
+//        }
     }
   
     @IBAction func testApiClick(_ sender: UIButton) {
